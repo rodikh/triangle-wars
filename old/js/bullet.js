@@ -2,7 +2,7 @@
 	var bulletImg = new Image();
 	bulletImg.src = "images/bullet.png";
 
-	bulletCont = new Container(canvas);
+	bulletCont = new createjs.Container(canvas);
 	var BulletC = Class.extend({
 		init: function(shooter, trajectory, shooterId){
 			this.body = new Bitmap(bulletImg);

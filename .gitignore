@@ -1,0 +1,6 @@
+/.idea
+/.sass-cache
+/bower_components
+/node_modules
+Thumbs.db
+.DS_Store

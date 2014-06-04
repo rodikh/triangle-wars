@@ -3,13 +3,13 @@
 	unitsImg.src = "images/units.png";
 	var unitsSprite;
 	unitsImg.onload = function(e){			/// should not be here, should initialize after load.
-		unitsSprite = new SpriteSheet({
+		unitsSprite = new createjs.SpriteSheet({
 			images: [unitsImg], 
 			frames: {width: 20, height: 20, regX: 10, regY: 10}
 		});
 	}
 	
-	unitCont = new Container(canvas);	
+	unitCont = new createjs.Container(canvas);
 	var UnitC = Class.extend({
 		init: function(obj){
 			this.body.x = 150;
@@ -18,7 +18,7 @@
 			this.body.regX = 10;
 			this.body.regY = 10;
 
-			var tint = new ColorFilter(0.7,0.7,0.9,1); // (red, green, blue, alpha)
+			var tint = new createjs.ColorFilter(0.7,0.7,0.9,1); // (red, green, blue, alpha)
 			this.body.cache(0, 0, 20 , 20);
 			this.body.filters = [tint];
 			this.body.updateCache();
@@ -296,7 +296,7 @@
 	}
 	var TriangleC = UnitC.extend({
 		init: function(name){
-			this.body = new Bitmap(unitsSprite.getFrame(0).image);
+			this.body = new createjs.Bitmap(unitsSprite.getFrame(0).image);
 			this.body.sourceRect = unitsSprite.getFrame(0).rect;
 			this.name = name;
 			this._super(false);
@@ -305,7 +305,7 @@
 	});	
 	var RepeaterC = UnitC.extend({
 		init: function(name){
-			this.body = new Bitmap(unitsSprite.getFrame(1).image);
+			this.body = new createjs.Bitmap(unitsSprite.getFrame(1).image);
 			this.body.sourceRect = unitsSprite.getFrame(1).rect;
 			this.name = name;
 			this._super(false);
@@ -316,7 +316,7 @@
 	});		
 	var DefenderC = UnitC.extend({
 		init: function(name){
-			this.body = new Bitmap(unitsSprite.getFrame(2).image);
+			this.body = new createjs.Bitmap(unitsSprite.getFrame(2).image);
 			this.body.sourceRect = unitsSprite.getFrame(2).rect;
 			this.name = name;
 			this._super(false);
@@ -425,7 +425,7 @@ function unitExists(name){
 	
 	var selector= {
 		selected: new Array,
-		selCont: new Container(canvas),
+		selCont: new createjs.Container(canvas),
 		remove: function(index){
 			this.selCont.removeChild(units[selector.selected[index]].selectElement);
 			this.selCont.removeChild(units[selector.selected[index]].lineTo);			
@@ -433,7 +433,7 @@ function unitExists(name){
 			selector.selected.splice(index);		
 		},
 		add: function(index){
-			var el = new Bitmap(selImg);		
+			var el = new createjs.Bitmap(selImg);		
 			el.regX = 10;
 			el.regY = 10;	
 			el.x = units[index].body.x;

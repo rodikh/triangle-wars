@@ -8,25 +8,24 @@ var stage;
 var map= new Object;
 
 function start(){
-	stage = new Stage(canvas);
-	
-		
+	stage = new createjs.Stage(canvas);
+
 	setTimeout(function(){
 		stage.addChild(map.mapCont);				
 		stage.addChild(selector.selCont);		
 		stage.addChild(unitCont);
 		stage.addChild(bulletCont);
 	}, 300);
+
+	createjs.Ticker.addEventListener("tick", handleTick);
+	createjs.Ticker.setFPS(40);
 	
-	Ticker.addListener(window);
-	Ticker.setFPS(40);
-	
-	new TriangleC("Rodik");	
-	new TriangleC("Bunny");	
-	new RepeaterC("Tom");	
-	new DefenderC("Bob");	
+	new TriangleC("Rodik");
+	new TriangleC("Bunny");
+	new RepeaterC("Tom");
+	new DefenderC("Bob");
 }
-function tick(){
+function handleTick(){
 	var update= 0;
 	for (i in units){
 		if(units[i].tick()){
@@ -38,7 +37,7 @@ function tick(){
 			update = 1;
 		}
 	}
-	track("fps",Ticker.getMeasuredFPS());
+	track("fps", createjs.Ticker.getMeasuredFPS());
 	if (update){
 		stage.update();
 	}

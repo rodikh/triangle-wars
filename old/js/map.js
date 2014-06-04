@@ -4,7 +4,7 @@
 	var bg = new Image();
 	bg.src = "images/bg.jpg";
 	bg.onload = function(){
-		var world = new Bitmap(bg);
+		var world = new createjs.Bitmap(bg);
 		world.onClick = handleWorldClick;
 		world.onPress = handleWorldPress;		
 		map.mapCont.addChildAt(world,0);
@@ -15,16 +15,16 @@
 	cellImg.onload = function(){
 
 
-		new CellC(300,200);
-		new CellC(500,200);
-		new CellC(400,300);		
-		new CellC(400,100);						
+//		new CellC(300,200);
+//		new CellC(500,200);
+//		new CellC(400,300);
+//		new CellC(400,100);
 	}
 	
-	map.mapCont = new Container(canvas);
+	map.mapCont = new createjs.Container(canvas);
 	var CellC = Class.extend({
 		init: function(x,y){
-			this.body = new Bitmap(cellImg);
+			this.body = new createjs.Bitmap(cellImg);
 
 			this.body.x = x;
 			this.body.y = y;

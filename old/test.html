@@ -3,7 +3,7 @@
 <head>
 <title>Drag and drop the shapes</title>
 
-<script src="js/easeljs-0.4.2.min.js"></script> 
+<script src="../bower_components/easeljs/lib/easeljs-0.7.1.combined.js"></script>
 <script>
 
 var stageWidth = 640;
@@ -15,18 +15,18 @@ var shape1, shape2, shape3;
 function init(){
  
  //new stage
- stage = new Stage(document.getElementById("canvas"));
+ stage = new createjs.Stage(document.getElementById("canvas"));
  stage.enableMouseOver();
  
  //text
- var text = new Text("Drag and drop the shapes", "30px Arial", "#000000");
+ var text = new createjs.Text("Drag and drop the shapes", "30px Arial", "#000000");
  text.x = stageWidth/2 - text.getMeasuredWidth()/2;
  text.y = 80;
  stage.addChild(text);
  
  //circle
- shape1 = new Shape();
- shape1.graphics.beginFill(Graphics.getRGB(0,255,0));
+ shape1 = new createjs.Shape();
+ shape1.graphics.beginFill(createjs.Graphics.getRGB(0,255,0));
  shape1.graphics.drawCircle(0,0,40);
  shape1.x = stageWidth/2;
  shape1.y = stageHeight/2;
@@ -34,8 +34,8 @@ function init(){
  stage.addChild(shape1);
 
  //rectangle 
- shape2 = new Shape();
- shape2.graphics.beginFill(Graphics.getRGB(255,0,0));
+ shape2 = new createjs.Shape();
+ shape2.graphics.beginFill(createjs.Graphics.getRGB(255,0,0));
  shape2.graphics.rect(0,0,100,60);
  shape2.regX = 50;
  shape2.regY = 30;
@@ -45,8 +45,8 @@ function init(){
  stage.addChild(shape2);
 
  //poly star
- shape3 = new Shape();
- shape3.graphics.beginFill(Graphics.getRGB(0,0,255));
+ shape3 = new createjs.Shape();
+ shape3.graphics.beginFill(createjs.Graphics.getRGB(0,0,255));
  shape3.graphics.drawPolyStar(0, 0, 50, 5, 0.6, -90);
  shape3.x = stageWidth/2 + 150;
  shape3.y = stageHeight/2;
@@ -54,8 +54,8 @@ function init(){
  stage.addChild(shape3);
  
  //draw to the canvas
- stage.update(); 
- Ticker.addListener(window);
+ stage.update();
+ createjs.Ticker.addEventListener("tick", tick);
 }
 
 function pressHandler(e){
