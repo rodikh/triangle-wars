@@ -1,17 +1,17 @@
-(function (window, GraphicsEngine) {
+(function (window, Unit) {
     'use strict';
 
     var Game = function () {
-        console.log('Game: Creating');
-        this.graphics = new GraphicsEngine();
-        this.reset();
     };
 
     Game.prototype.reset = function () {
         console.log('Game: Resetting');
-//        this.graphics.setBackground(imageAssets.mainBg);
+        this.units = {
+            neutral: []
+        };
+        this.units.neutral.push(new Unit({x: 15}));
     };
 
     window.Game = Game;
  
-} (window, window.GraphicsEngine));
+} (window, window.Unit));

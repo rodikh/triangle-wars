@@ -1,8 +1,13 @@
-(function (window, Game) {
+(function (window, Game, GraphicsEngine) {
     'use strict';
 
     var game = new Game();
 
+    var graphics = new GraphicsEngine();
+
     window.game = game;
 
-} (window, window.Game));
+//    game.reset();
+    graphics.mainMenuScene();
+
+} (window, window.Game, window.GraphicsEngine));

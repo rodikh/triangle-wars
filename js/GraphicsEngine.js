@@ -1,4 +1,4 @@
-(function (window) {
+(function (window, assetPreloader) {
     'use strict';
 
     /**
@@ -6,37 +6,50 @@
      * @constructor
      */
     var GraphicsEngine = function () {
-        console.log('Graphics: Initializing');
+//        console.log('Graphics: Initializing');
+        var self = this;
+        assetPreloader().then(function () {
+            self.stage.update();
+        });
         this.stage = new createjs.Stage(document.getElementById('main_canvas'));
     };
 
-    GraphicsEngine.prototype.loadImages = function (images) {
-        var i;
-        for (i in images) {
-            if (images.hasOwnProperty(i) && typeof images[i] === 'string') {
-                images[i] = new createjs.Bitmap(images[i]);
-            }
+    /**
+     * Adds a background image to a container using another nested container
+     * @param {createjs.Container} ctx A container to add a background to
+     * @param imageUrl Background image URL
+     */
+    GraphicsEngine.prototype.setBackground = function (ctx, imageUrl) {
+//        console.log('Graphics: Adding Background');
+        var bgContainer = ctx.getChildByName('bg');
+        if (!bgContainer) {
+            bgContainer = new createjs.Container();
+            this.addContainer(bgContainer, 'bg', ctx);
         }
+
+        var image = new createjs.Bitmap(imageUrl);
+        bgContainer.removeAllChildren();
+        bgContainer.addChild(image);
     };
 
-    GraphicsEngine.prototype.addContainer = function (container, name) {
-        console.log('Graphics: Container Added', name);
+    /**
+     * Adds the first container as a child of a second container.
+     * If no second container passed, adds the first container to the stage.
+     * @param container {createjs.Container}
+     * @param name
+     * @param [ctx] {createjs.Container}
+     */
+    GraphicsEngine.prototype.addContainer = function (container, name, ctx) {
+//        console.log('Graphics: Container Added', name);
         container.name = name;
-        this.stage.addChild(container);
-    };
 
-    GraphicsEngine.prototype.setBackground = function (image) {
-        console.log('Graphics: Adding Background');
-        var container = this.stage.getChildByName('background');
-        if (!container) {
-            container = new createjs.Container();
-            this.addContainer(container, 'background');
+        if (ctx) {
+            ctx.addChild(container);
+        } else {
+            this.stage.addChild(container);
         }
-        container.removeAllChildren();
-        container.addChild(image);
-        image.on('load', this.stage.update);
     };
 
     window.GraphicsEngine = GraphicsEngine;
 
-} (window));
+} (window, window.assetPreloader));
