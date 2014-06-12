@@ -1,7 +1,7 @@
 (function (window, GraphicsEngine, Game, MenuUtils) {
     'use strict';
 
-    var redraw = false;
+    var redraw = true;
 
     GraphicsEngine.prototype.gameScene = function () {
         this.stage.removeAllChildren();
@@ -19,25 +19,34 @@
 
         createjs.Ticker.removeAllEventListeners('tick');
         createjs.Ticker.setFPS(10);
-        createjs.Ticker.on('tick', gameLoop, this, false, {game: game, container: gameContainer});
+        createjs.Ticker.on('tick', gameLoop, this, false, {game: game, container: gameContainer, graphics: this});
 
         this.stage.update();
     };
 
     function gameLoop(event, args) {
-        console.log('gameLoop', event, args.game);
-
         if (redraw) {
             redraw = false;
-            drawUnits(args.game.units.neutral, args.container);
+            drawUnits(args.game.units.neutral, args.graphics, args.container);
+            args.graphics.stage.update();
         }
     }
 
-    function drawUnits(units, container) {
-        container.getChildByName('');
+    function drawUnits(units, graphics, container) {
+        var unitsContainer = graphics.getContainer('units', container, true);
         for (var i in units) {
             if (units.hasOwnProperty(i)) {
+                var unit = units[i];
+                console.log('unit', units[i]);
+                if (!unit.container) {
+                    unit.container = new createjs.Container();
+                    unit.container.addChild(new createjs.Bitmap('images/units/' + unit.model + '.png'));
+                }
 
+                unit.container.x = unit.x;
+                unit.container.y = unit.y;
+
+                unitsContainer.addChild(unit.container);
             }
         }
     }

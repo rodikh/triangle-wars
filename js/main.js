@@ -6,4 +6,6 @@
         graphics.mainMenuScene();
     });
 
+    window.graphics = graphics;
+
 } (window, window.Game, window.GraphicsEngine));

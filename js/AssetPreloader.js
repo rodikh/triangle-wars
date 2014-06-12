@@ -4,8 +4,12 @@
         var dfr = new Deferred();
 
         var manifest = [
-            {src: 'images/bg-menu.jpg', id: 'bg1'},
-            {src: 'images/bg-game.jpg', id: 'bg2'}
+            {src: 'bg-menu.jpg', id: 'bg1'},
+            {src: 'bg-game.jpg', id: 'bg2'},
+            {src: 'units/red-frigate.png', id: 'red-frigate'},
+            {src: 'units/blue-frigate.png', id: 'blue-frigate'},
+            {src: 'units/red-destroyer.png', id: 'blue-destroyer'},
+            {src: 'units/blue-destroyer.png', id: 'blue-destroyer'}
         ];
 
         function handleProgress(event) {
@@ -21,7 +25,7 @@
             dfr.resolve(event);
         }
 
-        var preload = new createjs.LoadQueue();
+        var preload = new createjs.LoadQueue(true, 'images/');
         preload.on('complete', handleComplete);
         preload.on('progress', handleProgress);
         preload.on('fileload', handleFileLoad);
