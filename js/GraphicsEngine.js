@@ -7,10 +7,7 @@
      */
     var GraphicsEngine = function () {
 //        console.log('Graphics: Initializing');
-        var self = this;
-        assetPreloader().then(function () {
-            self.stage.update();
-        });
+        this.promiseAssets = assetPreloader(); // returns promise
         this.stage = new createjs.Stage(document.getElementById('main_canvas'));
     };
 
@@ -44,9 +41,31 @@
         container.name = name;
 
         if (ctx) {
-            ctx.addChild(container);
+            return ctx.addChild(container);
         } else {
-            this.stage.addChild(container);
+            return this.stage.addChild(container);
+        }
+    };
+
+    /**
+     * Gets a child container of the passed container by name
+     * If a container was not passed, gets child of stage
+     * @param name
+     * @param ctx {createjs.Container}
+     * @param createIfNotFound {bool}
+     * @returns {createjs.Container}
+     */
+    GraphicsEngine.prototype.getContainer = function (name, ctx, createIfNotFound) {
+
+        if (!ctx) {
+            ctx = this.stage;
+        }
+
+        var child = ctx.getChildByName(name);
+        if (child) {
+            return child;
+        } else if (createIfNotFound) {
+            return this.addContainer(new createjs.Container(), name, ctx);
         }
     };
 

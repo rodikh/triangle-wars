@@ -2,14 +2,13 @@
     'use strict';
 
     var menuButtons = [
-        {label: 'New Game', scene: 'gameScene'},
-        {label: 'Test Menu', scene: 'testMenuScene'}
+        {label: 'Back', name: 'mainMenuScene'}
     ];
 
-    GraphicsEngine.prototype.mainMenuScene = function () {
+    GraphicsEngine.prototype.testMenuScene = function () {
         this.stage.removeAllChildren();
         var menuContainer = new createjs.Container();
-        this.setBackground(menuContainer, 'images/bg1.jpg');
+        this.setBackground(menuContainer, 'images/bg-menu.jpg');
 
         var i, length = menuButtons.length;
         for (i = 0; i < length; i++) {

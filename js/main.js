@@ -1,13 +1,9 @@
 (function (window, Game, GraphicsEngine) {
     'use strict';
 
-    var game = new Game();
-
     var graphics = new GraphicsEngine();
-
-    window.game = game;
-
-//    game.reset();
-    graphics.mainMenuScene();
+    graphics.promiseAssets.then(function () {
+        graphics.mainMenuScene();
+    });
 
 } (window, window.Game, window.GraphicsEngine));

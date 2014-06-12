@@ -4,7 +4,8 @@
         var dfr = new Deferred();
 
         var manifest = [
-            {src: 'images/bg1.jpg', id: 'bg1'},
+            {src: 'images/bg-menu.jpg', id: 'bg1'},
+            {src: 'images/bg-game.jpg', id: 'bg2'}
         ];
 
         function handleProgress(event) {

@@ -4,14 +4,14 @@
     var MenuUtils = {
         /**
          * Creates a button container for navigational menus
-         * @param buttonConfig {{label, sceneId}}
+         * @param buttonConfig {{label, name}}
          * @param settings {{x, y}}
          * @returns {createjs.Container}
          */
         createButtonContainer: function (buttonConfig, settings) {
             var width = 100, height = 30;
             var buttonContainer = new createjs.Container();
-            buttonContainer.name = buttonConfig.scene;
+            buttonContainer.name = buttonConfig.name;
             var rect = new createjs.Shape();
             rect.graphics.beginFill('#6e7e8e').drawRect(0, 0, width, height);
             buttonContainer.addChild(rect);
