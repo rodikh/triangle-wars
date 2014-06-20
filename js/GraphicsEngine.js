@@ -1,4 +1,4 @@
-(function (window, assetPreloader) {
+(function (window, AssetPreloader) {
     'use strict';
 
     /**
@@ -7,7 +7,7 @@
      */
     var GraphicsEngine = function () {
 //        console.log('Graphics: Initializing');
-        this.promiseAssets = assetPreloader(); // returns promise
+        this.assetPreloader = new AssetPreloader();
         this.stage = new createjs.Stage(document.getElementById('main_canvas'));
     };
 
@@ -24,9 +24,10 @@
             this.addContainer(bgContainer, 'bg', ctx);
         }
 
-        var image = new createjs.Bitmap(imageUrl);
+        var image = this.assetPreloader.preload.getResult(imageUrl);
+        var bitmap = new createjs.Bitmap(image);
         bgContainer.removeAllChildren();
-        bgContainer.addChild(image);
+        bgContainer.addChild(bitmap);
     };
 
     /**
@@ -71,4 +72,4 @@
 
     window.GraphicsEngine = GraphicsEngine;
 
-} (window, window.assetPreloader));
+} (window, window.AssetPreloader));

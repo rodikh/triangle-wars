@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"dependencies": {
 		"jquery": "2.1.*",
-		"easeljs": "0.7.1",
-		"PreloadJS": "0.4.1"
+		"easeljs": "*",
+		"createjs-preloadjs": "*"
 	}
 }

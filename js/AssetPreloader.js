@@ -1,11 +1,12 @@
 (function (window, Deferred) {
     'use strict';
-    function assetPreloader() {
+    function AssetPreloader() {
+
         var dfr = new Deferred();
 
         var manifest = [
-            {src: 'bg-menu.jpg', id: 'bg1'},
-            {src: 'bg-game.jpg', id: 'bg2'},
+            {src: 'bg-menu.jpg', id: 'bg-menu'},
+            {src: 'bg-game.jpg', id: 'bg-game'},
             {src: 'units/red-frigate.png', id: 'red-frigate'},
             {src: 'units/blue-frigate.png', id: 'blue-frigate'},
             {src: 'units/red-destroyer.png', id: 'blue-destroyer'},
@@ -25,16 +26,18 @@
             dfr.resolve(event);
         }
 
-        var preload = new createjs.LoadQueue(true, 'images/');
-        preload.on('complete', handleComplete);
-        preload.on('progress', handleProgress);
-        preload.on('fileload', handleFileLoad);
+        this.preload = new createjs.LoadQueue(true, 'images/');
+        this.preload.on('complete', handleComplete);
+        this.preload.on('progress', handleProgress);
+        this.preload.on('fileload', handleFileLoad);
 
-        preload.loadManifest(manifest);
+        this.preload.loadManifest(manifest);
 
-        return dfr.promise();
+        this.promiseAssets = function () {
+            return dfr.promise();
+        }
     }
 
-    window.assetPreloader = assetPreloader;
+    window.AssetPreloader = AssetPreloader;
 
 } (window, $.Deferred));

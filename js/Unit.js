@@ -5,7 +5,7 @@
         console.log('Base Unit Created');
         this.x = options.x || 100;
         this.y = options.y || 100;
-        this.model = 'red-frigate';
+        this.model = options.model || 'red-frigate';
     };
 
     window.Unit = Unit;

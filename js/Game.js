@@ -10,6 +10,8 @@
             neutral: []
         };
         this.units.neutral.push(new Unit({x: 15}));
+        this.units.neutral.push(new Unit({x: 50, model: 'blue-frigate'}));
+        this.units.neutral.push(new Unit({x: 50, y: 200, model: 'blue-destroyer'}));
     };
 
     window.Game = Game;

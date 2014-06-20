@@ -2,7 +2,7 @@
     'use strict';
 
     var graphics = new GraphicsEngine();
-    graphics.promiseAssets.then(function () {
+    graphics.assetPreloader.promiseAssets().then(function () {
         graphics.mainMenuScene();
     });
 

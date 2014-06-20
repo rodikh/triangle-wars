@@ -8,7 +8,7 @@
     GraphicsEngine.prototype.testMenuScene = function () {
         this.stage.removeAllChildren();
         var menuContainer = new createjs.Container();
-        this.setBackground(menuContainer, 'images/bg-menu.jpg');
+        this.setBackground(menuContainer, 'bg-menu');
 
         var i, length = menuButtons.length;
         for (i = 0; i < length; i++) {

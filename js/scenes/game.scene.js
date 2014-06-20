@@ -6,11 +6,11 @@
     GraphicsEngine.prototype.gameScene = function () {
         this.stage.removeAllChildren();
         var gameContainer = new createjs.Container();
-        this.setBackground(gameContainer, 'images/bg-game.jpg');
+        this.setBackground(gameContainer, 'bg-game');
         this.addContainer(gameContainer, 'game');
 
         var buttonContainer = MenuUtils.createButtonContainer({label: 'Exit', name:'mainMenuScene'}, {x: 20, y:  50});
-        buttonContainer.on('click', exit, this);
+        buttonContainer.on('click', this.exit, this);
         gameContainer.addChild(buttonContainer);
 
         var game = window.game = new Game();
@@ -19,20 +19,20 @@
 
         createjs.Ticker.removeAllEventListeners('tick');
         createjs.Ticker.setFPS(10);
-        createjs.Ticker.on('tick', gameLoop, this, false, {game: game, container: gameContainer, graphics: this});
+        createjs.Ticker.on('tick', this.gameLoop, this, false, {game: game, container: gameContainer, graphics: this});
 
         this.stage.update();
     };
 
-    function gameLoop(event, args) {
+    GraphicsEngine.prototype.gameLoop = function (event, args) {
         if (redraw) {
             redraw = false;
-            drawUnits(args.game.units.neutral, args.graphics, args.container);
+            this.   drawUnits(args.game.units.neutral, args.graphics, args.container);
             args.graphics.stage.update();
         }
     }
 
-    function drawUnits(units, graphics, container) {
+    GraphicsEngine.prototype.drawUnits = function (units, graphics, container) {
         var unitsContainer = graphics.getContainer('units', container, true);
         for (var i in units) {
             if (units.hasOwnProperty(i)) {
@@ -40,7 +40,8 @@
                 console.log('unit', units[i]);
                 if (!unit.container) {
                     unit.container = new createjs.Container();
-                    unit.container.addChild(new createjs.Bitmap('images/units/' + unit.model + '.png'));
+                    var image = this.assetPreloader.preload.getResult(unit.model)
+                    unit.container.addChild(new createjs.Bitmap(image));
                 }
 
                 unit.container.x = unit.x;
@@ -51,7 +52,7 @@
         }
     }
 
-    function exit(event) {
+    GraphicsEngine.prototype.exit = function(event) {
         /*jshint validthis: true */
         createjs.Ticker.removeAllEventListeners('tick');
         MenuUtils.sceneButton.call(this, event);
