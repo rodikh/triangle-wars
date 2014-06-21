@@ -9,7 +9,7 @@
             {src: 'bg-game.jpg', id: 'bg-game'},
             {src: 'units/red-frigate.png', id: 'red-frigate'},
             {src: 'units/blue-frigate.png', id: 'blue-frigate'},
-            {src: 'units/red-destroyer.png', id: 'blue-destroyer'},
+            {src: 'units/red-destroyer.png', id: 'red-destroyer'},
             {src: 'units/blue-destroyer.png', id: 'blue-destroyer'}
         ];
 

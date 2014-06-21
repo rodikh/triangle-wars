@@ -15,22 +15,42 @@
 
         var game = window.game = new Game();
 
-        game.reset();
-
         createjs.Ticker.removeAllEventListeners('tick');
         createjs.Ticker.setFPS(10);
-        createjs.Ticker.on('tick', this.gameLoop, this, false, {game: game, container: gameContainer, graphics: this});
 
+        game.reset();
+        createjs.Ticker.on('tick', this.gameLoop, this, false, {game: game, container: gameContainer, graphics: this});
         this.stage.update();
     };
 
     GraphicsEngine.prototype.gameLoop = function (event, args) {
-        if (redraw) {
+        if (this.shouldRedrawUnits(args.game.units)) {
             redraw = false;
-            this.   drawUnits(args.game.units.neutral, args.graphics, args.container);
+            this.drawUnits(args.game.units.neutral, args.graphics, args.container);
             args.graphics.stage.update();
         }
-    }
+    };
+
+    GraphicsEngine.prototype.shouldRedrawUnits = function (units) {
+        var redraw = false;
+        for (var i in units) {
+            if (units.hasOwnProperty(i)) {
+                var faction = units[i];
+                for (var j in faction) {
+                    if (faction.hasOwnProperty(j)) {
+                        var unit = faction[j];
+                        console.log('unit', unit);
+                        if (unit.updated) {
+                            unit.updated = false;
+                            redraw = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return redraw;
+    };
 
     GraphicsEngine.prototype.drawUnits = function (units, graphics, container) {
         var unitsContainer = graphics.getContainer('units', container, true);
@@ -40,12 +60,16 @@
                 console.log('unit', units[i]);
                 if (!unit.container) {
                     unit.container = new createjs.Container();
-                    var image = this.assetPreloader.preload.getResult(unit.model)
-                    unit.container.addChild(new createjs.Bitmap(image));
+                    var image = this.assetPreloader.preload.getResult(unit.model);
+                    var bitmap = new createjs.Bitmap(image);
+                    unit.container.addChild(bitmap);
+                    unit.container.regX = bitmap.image.width / 2;
+                    unit.container.regY = bitmap.image.height / 2;
                 }
 
                 unit.container.x = unit.x;
                 unit.container.y = unit.y;
+                unit.container.rotation = unit.rot;
 
                 unitsContainer.addChild(unit.container);
             }
