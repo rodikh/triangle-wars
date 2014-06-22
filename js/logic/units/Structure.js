@@ -1,7 +1,7 @@
-(function (window) {
+(function (window, Unit) {
     'use strict';
 
-    var Unit = function (options) {
+    var Structure = function (options) {
         console.log('Base Unit Created');
         this.x = options.x || 100;
         this.y = options.y || 100;
@@ -11,13 +11,7 @@
         this.updated = true;
     };
 
-    Unit.prototype.unitTick = function () {
-        // updated will decide if rerendering is needed
-        var updated = false;
-        this.rot += 1;
-        updated = true;
-        return updated;
-    };
+    Structure.prototype = Unit.prototype;
 
-    window.Unit = Unit;
-} (window));
+    window.Structure = Structure;
+} (window, window.Unit));

@@ -24,55 +24,34 @@
     };
 
     GraphicsEngine.prototype.gameLoop = function (event, args) {
-        if (this.shouldRedrawUnits(args.game.units)) {
-            redraw = false;
-            this.drawUnits(args.game.units.neutral, args.graphics, args.container);
+        var updated = args.game.logicLoop();
+
+        if (updated.units) {
+            this.drawUnits(args.game, args.graphics, args.container);
             args.graphics.stage.update();
         }
     };
 
-    GraphicsEngine.prototype.shouldRedrawUnits = function (units) {
-        var redraw = false;
-        for (var i in units) {
-            if (units.hasOwnProperty(i)) {
-                var faction = units[i];
-                for (var j in faction) {
-                    if (faction.hasOwnProperty(j)) {
-                        var unit = faction[j];
-                        console.log('unit', unit);
-                        if (unit.updated) {
-                            unit.updated = false;
-                            redraw = true;
-                        }
-                    }
-                }
+    GraphicsEngine.prototype.drawUnits = function (game, graphics, container) {
+        var i,
+            unitsLength = game.units.length,
+            unitsContainer = graphics.getContainer('units', container, true);
+        for (i = 0; i < unitsLength; i++) {
+            var unit = game.units[i];
+            if (!unit.container) {
+                unit.container = new createjs.Container();
+                var image = this.assetPreloader.preload.getResult(unit.model);
+                var bitmap = new createjs.Bitmap(image);
+                unit.container.addChild(bitmap);
+                unit.container.regX = bitmap.image.width / 2;
+                unit.container.regY = bitmap.image.height / 2;
             }
-        }
 
-        return redraw;
-    };
+            unit.container.x = unit.x;
+            unit.container.y = unit.y;
+            unit.container.rotation = unit.rot;
 
-    GraphicsEngine.prototype.drawUnits = function (units, graphics, container) {
-        var unitsContainer = graphics.getContainer('units', container, true);
-        for (var i in units) {
-            if (units.hasOwnProperty(i)) {
-                var unit = units[i];
-                console.log('unit', units[i]);
-                if (!unit.container) {
-                    unit.container = new createjs.Container();
-                    var image = this.assetPreloader.preload.getResult(unit.model);
-                    var bitmap = new createjs.Bitmap(image);
-                    unit.container.addChild(bitmap);
-                    unit.container.regX = bitmap.image.width / 2;
-                    unit.container.regY = bitmap.image.height / 2;
-                }
-
-                unit.container.x = unit.x;
-                unit.container.y = unit.y;
-                unit.container.rotation = unit.rot;
-
-                unitsContainer.addChild(unit.container);
-            }
+            unitsContainer.addChild(unit.container);
         }
     }
 
