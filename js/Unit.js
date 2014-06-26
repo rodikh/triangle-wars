@@ -1,6 +1,10 @@
-(function (window) {
+(function (window, Drawable) {
     'use strict';
 
+    /**
+     * Base Unit Class,
+     * Implements a mobile navigating body.
+     */
     var Unit = function (options) {
         console.log('Base Unit Created');
 
@@ -9,17 +13,24 @@
         this.y = options.y || 100;
         this.rot = options.rot || 0;
         this.model = options.model || 'red-frigate';
-        this.velocity = 0.5;
+        this.velocity = 0;
+        this.acceleration = 0;
+        this.rotVelocity = 0;
+        this.drawable = new Drawable(this);
 
         // Unit spec properties
-        this.speed = 2;
+        this.maxSpeed = 3;
+        this.maxAcceleration = 0.4;
+        this.maxRotSpeed = 3;
         this.faction = options.faction || 'red';
 
         // Unit behaviour properties
         this.target = {x: 150, y: 150};
         this.status = 'idle';
-    };
 
+        // development
+        this.verbose = options.verbose || false;
+    };
 
     /**
      * Distance between two points
@@ -47,6 +58,7 @@
      */
     function throttleTo(unit, targetVelocity) {
         // TODO: Implement acceleration and deceleration
+
         if (unit.velocity < targetVelocity) {
             unit.velocity += targetVelocity / 15;
         }else if (unit.velocity > targetVelocity) {
@@ -61,22 +73,24 @@
         var navAngleAccuracy = 2; // The allowed amount of degree error during navigation
         // TODO: rotate easeinout
         var deltaAngle = correction(unit.rot, targetAngle);
-        if (deltaAngle > navAngleAccuracy || deltaAngle < -navAngleAccuracy) {// Same algorithm to face the waypoint.
+        if (Math.abs(deltaAngle) > navAngleAccuracy) {
+
             var rand = Math.random();	// max rotation speed at idle is 9 angles per frame
             var rotationFriction = unit.velocity;							// random rotation speed
             var drot = 5 * rotationFriction * rand;
             if (drot > 9){
                 drot = 10;
             }
+
             if (deltaAngle > 0) {
                 unit.rot += drot;
             } else {								// gradually rotate body to waypoint
                 unit.rot -= drot;
             }
+
             if (unit.rot < -180) {
                 unit.rot += 360;
-            }		// don't overflow angles
-            else if (unit.rot > 180) {
+            } else if (unit.rot > 180) {
                 unit.rot -= 360;
             }
         }
@@ -88,7 +102,7 @@
     Unit.prototype.idle = function () {
 
         // Maintain idle velocity
-        var idleSpeed = this.speed/4;
+        var idleSpeed = this.maxSpeed/4;
         throttleTo(this, idleSpeed);
 
         if (distance(this, this.target) > 15) {		// if further than 15 pixels away from target
@@ -109,7 +123,7 @@
         bankTo(this, direction(this, this.target));
 
         if (distance(this, this.target) > 20) {		// if further than 10 pixels away
-            throttleTo(this, this.speed);
+            throttleTo(this, this.maxSpeed);
         } else {
             this.status = 'idle';
         }
@@ -125,8 +139,7 @@
             this.idle();
         }
 
-        // move unit
-        if(this.velocity > 0){
+        if (this.velocity !== 0) {
             this.x += this.velocity * Math.cos(this.rot * (Math.PI/180));
             this.y += this.velocity * Math.sin(this.rot * (Math.PI/180));
         }
@@ -135,4 +148,4 @@
     };
 
     window.Unit = Unit;
-} (window));
+} (window, window.Drawable));

@@ -6,8 +6,6 @@
      * @constructor
      */
     var GraphicsEngine = function () {
-//        console.log('Graphics: Initializing');
-        this.assetPreloader = new AssetPreloader();
         this.stage = new createjs.Stage(document.getElementById('main_canvas'));
     };
 
@@ -24,7 +22,7 @@
             this.addContainer(bgContainer, 'bg', ctx);
         }
 
-        var image = this.assetPreloader.preload.getResult(imageUrl);
+        var image = AssetPreloader.getResult(imageUrl);
         var bitmap = new createjs.Bitmap(image);
         bgContainer.removeAllChildren();
         bgContainer.addChild(bitmap);
@@ -54,7 +52,7 @@
      * @param name
      * @param ctx {createjs.Container}
      * @param createIfNotFound {bool}
-     * @returns {createjs.Container}
+     * @returns {createjs.Container | bool}
      */
     GraphicsEngine.prototype.getContainer = function (name, ctx, createIfNotFound) {
 
@@ -68,6 +66,8 @@
         } else if (createIfNotFound) {
             return this.addContainer(new createjs.Container(), name, ctx);
         }
+
+        return false;
     };
 
     window.GraphicsEngine = GraphicsEngine;
