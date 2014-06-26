@@ -4,6 +4,7 @@
     /**
      * Base Unit Class,
      * Implements a mobile navigating body.
+     * @constructor
      */
     var Unit = function (options) {
         console.log('Base Unit Created');
@@ -34,6 +35,9 @@
 
     /**
      * Distance between two points
+     * @param {{number, number}} p1 Point to measure distance from
+     * @param {{number, number}} p2 Point to measure distance to
+     * @returns {number} Distance between the points
      */
     function distance(p1, p2) {
         return Math.sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
@@ -41,6 +45,9 @@
 
     /**
      * Angle between two points
+     * @param {{number, number}} p1 Point to measure angle from
+     * @param {{number, number}} p2 Point to measure amg;e to
+     * @returns {number} Angle between p2 and x axis for p1.
      */
     function direction(p1, p2) {
         return Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
@@ -48,13 +55,18 @@
 
     /**
      * Angle difference between two angles
+     * @param {number} a1 Angle to measure difference from
+     * @param {number} a2 Angle to measure difference to
+     * @returns {number} Angle between angles.
      */
     function correction(a1, a2) {
         return (a2 - a1 + 180) % 360 - 180;
     }
 
     /**
-     * Accelerate or Decelerate to a given speed
+     * Accelerate or Decelerate a unit to a given speed
+     * @param {Unit} unit
+     * @param {number} targetVelocity
      */
     function throttleTo(unit, targetVelocity) {
         // TODO: Implement acceleration and deceleration
@@ -68,6 +80,8 @@
 
     /**
      * Steadily turn a unit to face a direction
+     * @param {Unit} unit
+     * @param {number} targetAngle
      */
     function bankTo(unit, targetAngle) {
         var navAngleAccuracy = 2; // The allowed amount of degree error during navigation
@@ -112,6 +126,7 @@
 
     /**
      * Flying to point behaviour
+     * @param {{number, number}} [target] Target waypoint to fly to
      */
     Unit.prototype.flyTo = function (target) {			// set and recalibrate heading to target per tick
         if(target !== undefined){
@@ -144,8 +159,6 @@
             this.x += this.velocity * Math.cos(this.rot * (Math.PI/180));
             this.y += this.velocity * Math.sin(this.rot * (Math.PI/180));
         }
-
-        return true;
     };
 
     window.Unit = Unit;

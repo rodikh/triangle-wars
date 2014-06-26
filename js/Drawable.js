@@ -1,6 +1,11 @@
 (function (window, AssetPreloader) {
     'use strict';
 
+    /**
+     * An extender for unit objects that handles graphics containers.
+     * @param {Unit} object the Unit to extend
+     * @constructor
+     */
     var Drawable = function (object) {
         this.object = object;
         this.container = new createjs.Container();
@@ -13,6 +18,9 @@
 
     };
 
+    /**
+     * Sync the graphics to the logic
+     */
     Drawable.prototype.update = function () {
         this.container.x = this.object.x;
         this.container.y = this.object.y;

@@ -1,11 +1,18 @@
 (function (window, Unit, GraphicsEngine) {
     'use strict';
 
+    /**
+     * Game manager
+     * @constructor
+     */
     var Game = function () {
         this.graphics = new GraphicsEngine();
         gameScene(this);
     };
 
+    /**
+     * Reset the game data to a new game state
+     */
     Game.prototype.reset = function () {
         console.log('Game: Resetting');
         this.units = [];
@@ -15,11 +22,19 @@
 //        this.addUnit({x: 200, y: 250, rot: 23, model: 'red-destroyer', faction: 'red'});
     };
 
+    /**
+     * Spawn a new unit from arguments
+     * @param {*} args
+     */
     Game.prototype.addUnit = function (args) {
         var unit = new Unit(args);
         this.units.push(unit);
     };
 
+    /**
+     * Game loop that only deals with game logic
+     * @returns {*} list of updates that were made for rerendering
+     */
     Game.prototype.logicLoop = function () {
         var i,
             updated = {},
@@ -34,6 +49,9 @@
         return updated;
     };
 
+    /**
+     * Loop that only deals with rendering
+     */
     Game.prototype.graphicLoop = function () {
         var updated = this.logicLoop();
 
@@ -52,6 +70,10 @@
 
     window.Game = Game;
 
+    /**
+     * Creates the game stage and containers for a new game
+     * @param {Game} game
+     */
     function gameScene(game) {
         game.graphics.stage.removeAllChildren();
         game.gameContainer = new createjs.Container();
