@@ -39,8 +39,7 @@
      * Angle difference between two angles
      */
     function correction(a1, a2) {
-        var d = Math.abs(a1 - a2) % 360;
-        return (d > 180) ? 360 - d : d;
+        return (a2 - a1 + 180) % 360 - 180;
     }
 
     /**
@@ -83,7 +82,10 @@
         }
     }
 
-    Unit.prototype.idle = function () {			// Idle behaviour
+    /**
+     * Idle behaviour
+     */
+    Unit.prototype.idle = function () {
 
         // Maintain idle velocity
         var idleSpeed = this.speed/4;
@@ -94,6 +96,9 @@
         }
     };
 
+    /**
+     * Flying to point behaviour
+     */
     Unit.prototype.flyTo = function (target) {			// set and recalibrate heading to target per tick
         if(target !== undefined){
             this.target.x = target.x;					// set a new waypoint
@@ -110,8 +115,9 @@
         }
     };
 
-
-
+    /**
+     * Unit's tick function, updates position and behaviour
+     */
     Unit.prototype.unitTick = function () {
         if(this.status === 'flying'){
             this.flyTo();
