@@ -120,13 +120,14 @@
             this.status = 'flying';
         }
 
-        bankTo(this, direction(this, this.target));
-
         if (distance(this, this.target) > 20) {		// if further than 10 pixels away
             throttleTo(this, this.maxSpeed);
         } else {
             this.status = 'idle';
         }
+
+        bankTo(this, direction(this, this.target));
+
     };
 
     /**
