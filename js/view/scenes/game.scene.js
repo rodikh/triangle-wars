@@ -16,7 +16,7 @@
         var game = window.game = new Game();
 
         createjs.Ticker.removeAllEventListeners('tick');
-        createjs.Ticker.setFPS(10);
+        createjs.Ticker.setFPS(30);
 
         game.reset();
         createjs.Ticker.on('tick', this.gameLoop, this, false, {game: game, container: gameContainer, graphics: this});
@@ -49,7 +49,7 @@
 
             unit.container.x = unit.x;
             unit.container.y = unit.y;
-            unit.container.rotation = unit.rot;
+            unit.container.rotation = unit.rot + 90;
 
             unitsContainer.addChild(unit.container);
         }
