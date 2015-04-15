@@ -1,9 +1,10 @@
 {
-	"name": "triangle-wars-client",
-	"version": "0.0.1",
-	"dependencies": {
-		"jquery": "2.1.*",
-		"easeljs": "*",
-		"createjs-preloadjs": "*"
-	}
+  "name": "triangle-wars-client",
+  "version": "0.0.1",
+  "dependencies": {
+    "jquery": "2.1.*",
+    "easeljs": "*",
+    "createjs-preloadjs": "*",
+    "dat-gui": "0.5.*"
+  }
 }

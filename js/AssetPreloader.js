@@ -6,10 +6,9 @@
     var manifest = [
         {src: 'bg-menu.jpg', id: 'bg-menu'},
         {src: 'bg-game.jpg', id: 'bg-game'},
-        {src: 'units/red-frigate.png', id: 'red-frigate'},
-        {src: 'units/blue-frigate.png', id: 'blue-frigate'},
-        {src: 'units/red-destroyer.png', id: 'red-destroyer'},
-        {src: 'units/blue-destroyer.png', id: 'blue-destroyer'}
+        {src: 'units/building.png', id: 'building'},
+        {src: 'units/frigate.png', id: 'frigate'},
+        {src: 'units/destroyer.png', id: 'destroyer'}
     ];
 
     function handleProgress(event) {

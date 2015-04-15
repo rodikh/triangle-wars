@@ -15,19 +15,21 @@
         this.rot = options.rot || 0;
         this.model = options.model || 'red-frigate';
         this.velocity = 0;
-        this.acceleration = 0;
-        this.rotVelocity = 0;
-        this.drawable = new Drawable(this);
+
+        // Unit vitals
+        this.maxHp = 10;
+        this.hp = this.maxHp;
 
         // Unit spec properties
         this.maxSpeed = 3;
-        this.maxAcceleration = 0.4;
-        this.maxRotSpeed = 3;
         this.faction = options.faction || 'red';
 
         // Unit behaviour properties
-        this.target = {x: 150, y: 150};
+        this.target = {x: options.x, y: options.y};
         this.status = 'idle';
+
+        // Unit graphics
+        this.drawable = new Drawable(this);
 
         // development
         this.verbose = options.verbose || false;
@@ -89,14 +91,14 @@
         var deltaAngle = correction(unit.rot, targetAngle);
         if (Math.abs(deltaAngle) > navAngleAccuracy) {
 
-            var rand = Math.random();	// max rotation speed at idle is 9 angles per frame
-            var rotationFriction = unit.velocity;							// random rotation speed
-            var drot = 5 * rotationFriction * rand;
-            if (drot > 9){
-                drot = 10;
-            }
+            //var rotationFriction = unit.velocity;							// random rotation speed
+            //var drot = 3 * rotationFriction;
+            var drot = 3;
+            //if (drot > 5){
+            //    drot = 5;
+            //}
 
-            if (deltaAngle > 0) {
+            if (deltaAngle > 2) {
                 unit.rot += drot;
             } else {								// gradually rotate body to waypoint
                 unit.rot -= drot;
@@ -149,6 +151,11 @@
      * Unit's tick function, updates position and behaviour
      */
     Unit.prototype.unitTick = function () {
+        if (this.hp <= 0) {
+            this.destroy();
+            return true;
+        }
+
         if(this.status === 'flying'){
             this.flyTo();
         }else if(this.status === 'idle'){
@@ -158,8 +165,18 @@
         if (this.velocity !== 0) {
             this.x += this.velocity * Math.cos(this.rot * (Math.PI/180));
             this.y += this.velocity * Math.sin(this.rot * (Math.PI/180));
+
+            return true;
         }
+
+        return false;
+    };
+
+    Unit.prototype.destroy = function () {
+        var index = game.units.indexOf(this);
+        game.units.splice(index, 1);
     };
 
     window.Unit = Unit;
+    window.UnitFactories = {};
 } (window, window.Drawable));

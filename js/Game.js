@@ -1,4 +1,4 @@
-(function (window, Unit, GraphicsEngine) {
+(function (window, UnitFactories, GraphicsEngine) {
     'use strict';
 
     /**
@@ -16,18 +16,27 @@
     Game.prototype.reset = function () {
         console.log('Game: Resetting');
         this.units = [];
-        this.addUnit({x: 100, y: 100, rot: 0, model: 'blue-frigate', faction: 'red', verbose: true});
-//        this.addUnit({x: 15, faction: 'red'});
-//        this.addUnit({x: 50, y: 200, model: 'blue-destroyer', faction: 'red'});
-//        this.addUnit({x: 200, y: 250, rot: 23, model: 'red-destroyer', faction: 'red'});
+        this.addUnit(UnitFactories.Frigate, {id: 'jack', x: 100, y: 100, rot: 0, faction: 'red', verbose: true});
+        this.addUnit(UnitFactories.Destroyer, {id: 'dessy', x: 120, y: 100, rot: 0, faction: 'red', verbose: true});
+        this.addUnit(UnitFactories.Frigate, {id: 'mel', x: 600, y: 500, rot: 270, faction: 'blue', verbose: true});
+        this.addUnit(Building, {x: 400, y: 400, faction: 'blue'});
     };
 
     /**
      * Spawn a new unit from arguments
      * @param {*} args
      */
-    Game.prototype.addUnit = function (args) {
-        var unit = new Unit(args);
+    Game.prototype.addUnit = function (Factory, args) {
+        var unit = new Factory(args);
+        if (args.verbose) {
+            var unitf = gui.addFolder(args.id);
+            unitf.add(unit, 'x').listen();
+            unitf.add(unit, 'y').listen();
+            unitf.add(unit, 'hp').listen();
+            unitf.add(unit, 'rot').listen();
+            unitf.add(unit, 'status').listen();
+            unitf.add(unit, 'velocity').listen();
+        }
         this.units.push(unit);
     };
 
@@ -52,6 +61,7 @@
     /**
      * Loop that only deals with rendering
      */
+
     Game.prototype.graphicLoop = function () {
         var updated = this.logicLoop();
 
@@ -88,4 +98,4 @@
         game.graphics.stage.update();
     }
  
-} (window, window.Unit, window.GraphicsEngine));
+} (window, window.UnitFactories, window.GraphicsEngine));

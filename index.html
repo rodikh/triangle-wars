@@ -8,20 +8,24 @@
 </head>
 <body>
     <section class="page">
-        <canvas id="main_canvas" width="800" height="600" oncontextmenu="return false;"></canvas>
+        <canvas id="main_canvas" width="1200" height="800" oncontextmenu="return false;"></canvas>
     </section>
     <section class="console">
     </section>
 
     <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/easeljs/lib/easeljs-0.7.1.combined.js"></script>
-    <script src="bower_components/createjs-preloadjs/lib/preloadjs-0.4.1.combined.js"></script>
+    <script src="bower_components/easeljs/lib/easeljs-NEXT.combined.js"></script>
+    <script src="bower_components/createjs-preloadjs/lib/preloadjs-NEXT.combined.js"></script>
+    <script src="bower_components/dat-gui/build/dat.gui.min.js"></script>
 
     <script src="js/AssetPreloader.js"></script>
     <script src="js/GraphicsEngine.js"></script>
     <script src="js/Drawable.js"></script>
 
-    <script src="js/Unit.js"></script>
+    <script src="js/units/Unit.js"></script>
+    <script src="js/units/frigate.js"></script>
+    <script src="js/units/destroyer.js"></script>
+    <script src="js/units/building.js"></script>
     <script src="js/Game.js"></script>
 
     <script src="js/main.js"></script>
