@@ -4,31 +4,36 @@
     <meta charset="utf-8">
     <title>Triangle Wars</title>
 
-    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="/css/site.css" rel="stylesheet">
 </head>
 <body>
-    <section class="page">
-        <canvas id="main_canvas" width="1200" height="800" oncontextmenu="return false;"></canvas>
-    </section>
-    <section class="console">
-    </section>
+    <header class="container-full text-center page-header header-compact">
+        <h1>Triangle Wars</h1>
 
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/easeljs/lib/easeljs-NEXT.combined.js"></script>
-    <script src="bower_components/createjs-preloadjs/lib/preloadjs-NEXT.combined.js"></script>
-    <script src="bower_components/dat-gui/build/dat.gui.min.js"></script>
+        <h2 class="lead">A canvas RTS game</h2>
+    </header>
+    <div class="container page">
+        <canvas id="main_canvas" width="1000" height="600" oncontextmenu="return false;"></canvas>
+        <section class="console">
+        </section>
+    </div>
 
-    <script src="js/AssetPreloader.js"></script>
-    <script src="js/GraphicsEngine.js"></script>
-    <script src="js/Drawable.js"></script>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/easeljs/lib/easeljs-NEXT.combined.js"></script>
+<script src="bower_components/createjs-preloadjs/lib/preloadjs-NEXT.combined.js"></script>
+<script src="bower_components/dat-gui/build/dat.gui.min.js"></script>
 
-    <script src="js/units/Unit.js"></script>
-    <script src="js/units/frigate.js"></script>
-    <script src="js/units/destroyer.js"></script>
-    <script src="js/units/building.js"></script>
-    <script src="js/Game.js"></script>
+<script src="js/AssetPreloader.js"></script>
+<script src="js/GraphicsEngine.js"></script>
+<script src="js/Drawable.js"></script>
 
-    <script src="js/main.js"></script>
+<script src="js/units/Unit.js"></script>
+<script src="js/units/frigate.js"></script>
+<script src="js/units/destroyer.js"></script>
+<script src="js/units/building.js"></script>
+<script src="js/Game.js"></script>
+
+<script src="js/main.js"></script>
 
 </body>
 </html>
