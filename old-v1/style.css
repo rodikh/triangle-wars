@@ -1,0 +1,39 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	margin:0;
+	padding:0;
+	background-color: #5D5D5D;
+}
+section.page{
+	width: 800px;
+	min-height: 500px;
+	margin: 80px auto;
+	text-align:center;
+}
+canvas{
+	background-color: #EEE;	
+	-moz-box-shadow: rgba(0, 0, 0, 0.496094) 1px 2px 6px;
+	box-shadow: rgba(0, 0, 0, 0.496094) 1px 2px 6px;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.496094) 1px 2px 6px;	
+}
+
+.console{
+	position:absolute;
+	top:50px;
+	left:20px;
+	height: 500px;
+	width:250px;	
+	color: white;
+}
+.console > div{
+	height: 20px;
+}
+.console .title{
+	float:left;
+	width: 60px;
+}
+.console .val{	
+	float:left;
+	margin: 0 0 0 5px;
+}
