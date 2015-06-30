@@ -23,9 +23,6 @@
 
         this.status = 'idle';
 
-        // Building graphics
-        this.drawable = new Drawable(this);
-
         // development
         this.verbose = options.verbose || false;
     };

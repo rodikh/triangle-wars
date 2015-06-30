@@ -5,8 +5,8 @@
      * Game manager
      * @constructor
      */
-    var Game = function () {
-        this.graphics = new GraphicsEngine();
+    var Game = function (assetPreloader) {
+        this.graphics = new GraphicsEngine(assetPreloader);
         gameScene(this);
     };
 
@@ -38,6 +38,8 @@
             unitf.add(unit, 'velocity').listen();
         }
         this.units.push(unit);
+        this.graphics.addDrawable(unit);
+
     };
 
     /**

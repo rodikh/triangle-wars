@@ -1,39 +1,45 @@
 (function (window, Deferred) {
     'use strict';
 
-    var dfr = new Deferred();
+    /**
+     * Loads images to be used by the game
+     * @param manifest An array describing the assets, or a path to a json file
+     * @param baseUrl A base url to prepend to all manifest urls
+     * @constructor
+     */
+    var AssetPreloader = function (manifest, baseUrl) {
+        if (!baseUrl) {
+            baseUrl = '';
+        }
 
-    var manifest = [
-        {src: 'bg-menu.jpg', id: 'bg-menu'},
-        {src: 'bg-game.jpg', id: 'bg-game'},
-        {src: 'units/building.png', id: 'building'},
-        {src: 'units/frigate.png', id: 'frigate'},
-        {src: 'units/destroyer.png', id: 'destroyer'}
-    ];
+        this.dfr = new Deferred();
 
-    function handleProgress(event) {
-//            console.log('asset loading progress', event.progress);
-    }
+        this.queue = new createjs.LoadQueue(true, baseUrl);
+        this.queue.on('complete', this.handleComplete, this);
+        this.queue.on('progress', this.handleProgress, this);
+        this.queue.on('fileload', this.handleFileLoad, this);
 
-    function handleFileLoad(event) {
-//            console.log('FILE LOAD', event);
-    }
-
-    function handleComplete(event) {
-//            console.log('finished loading', event);
-        dfr.resolve(event);
-    }
-
-    var AssetPreloader = new createjs.LoadQueue(true, 'images/');
-    AssetPreloader.on('complete', handleComplete);
-    AssetPreloader.on('progress', handleProgress);
-    AssetPreloader.on('fileload', handleFileLoad);
-
-    AssetPreloader.loadManifest(manifest);
-
-    window.promiseAssets = function () {
-        return dfr.promise();
+        this.queue.loadManifest(manifest);
     };
+
+    AssetPreloader.prototype.handleProgress = function (event) {
+    };
+
+    AssetPreloader.prototype.handleFileLoad = function (event) {
+    };
+
+    AssetPreloader.prototype.handleComplete = function (event) {
+        this.dfr.resolve(event, this);
+    };
+
+    AssetPreloader.prototype.promiseAssets = function () {
+        return this.dfr.promise();
+    };
+
+    AssetPreloader.prototype.getAsset = function (args) {
+        return this.queue.getResult(args);
+    };
+
     window.AssetPreloader = AssetPreloader;
 
-} (window, $.Deferred));
+}(window, $.Deferred));

@@ -29,9 +29,6 @@
         this.target = {x: options.x, y: options.y};
         this.status = 'idle';
 
-        // Unit graphics
-        this.drawable = new Drawable(this);
-
         // development
         this.verbose = options.verbose || false;
     };

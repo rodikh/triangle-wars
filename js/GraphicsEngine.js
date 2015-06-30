@@ -1,12 +1,13 @@
-(function (window, AssetPreloader) {
+(function (window) {
     'use strict';
 
     /**
      * The EaselJS graphics engine
      * @constructor
      */
-    var GraphicsEngine = function () {
+    var GraphicsEngine = function (assetPreloader) {
         this.stage = new createjs.Stage(document.getElementById('main_canvas'));
+        this.assetPreloader = assetPreloader;
     };
 
     /**
@@ -22,7 +23,7 @@
             this.addContainer(bgContainer, 'bg', ctx);
         }
 
-        var image = AssetPreloader.getResult(imageUrl);
+        var image = this.assetPreloader.getAsset(imageUrl);
         var bitmap = new createjs.Bitmap(image);
         bgContainer.removeAllChildren();
         bgContainer.addChild(bitmap);
@@ -70,6 +71,10 @@
         return false;
     };
 
+    GraphicsEngine.prototype.addDrawable = function (unit) {
+        unit.drawable = new Drawable(unit, this.assetPreloader);
+    };
+
     window.GraphicsEngine = GraphicsEngine;
 
-} (window, window.AssetPreloader));
+} (window));

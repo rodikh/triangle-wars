@@ -1,4 +1,4 @@
-(function (window, AssetPreloader) {
+(function (window) {
     'use strict';
 
     var factionColors = {
@@ -11,11 +11,11 @@
      * @param {Unit} object the Unit to extend
      * @constructor
      */
-    var Drawable = function (object) {
+    var Drawable = function (object, assetPreloader) {
         this.object = object;
         this.container = new createjs.Container();
 
-        var image = AssetPreloader.getResult(object.model);
+        var image = assetPreloader.getAsset(object.model);
         this.unitBitmap = new createjs.Bitmap(image);
         this.unitBitmap.filters = [factionColors[object.faction]];
         this.unitBitmap.cache(0, 0, image.width, image.height);
@@ -69,4 +69,4 @@
     };
 
     window.Drawable = Drawable;
-}(window, window.AssetPreloader));
+}(window));
