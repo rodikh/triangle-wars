@@ -23,6 +23,7 @@
         // Unit vitals
         this.maxHp = 10;
         this.hp = this.maxHp;
+        this.isAlive = true;
 
         // Unit spec properties
         this.maxSpeed = 3;
@@ -152,8 +153,29 @@
 
     };
 
-    Unit.prototype.interactWith = function (unit) {
+    Unit.prototype.attack = function (target) {
+        if (target !== undefined) {
+            this.target.x = target.x;					// set a new waypoint
+            this.target.y = target.y;
+            this.status = 'flying';
+        }
 
+        if (distance(this, this.target) > 20) {		// if further than 10 pixels away
+            throttleTo(this, this.maxSpeed);
+        } else {
+            this.status = 'idle';
+        }
+
+        bankTo(this, direction(this, this.target));
+
+
+
+    };
+
+    Unit.prototype.interactWith = function (unit) {
+        if (unit.faction !== this.faction) {
+            this.attack(unit, 1);
+        }
     };
 
     /**

@@ -99,9 +99,8 @@
      */
     function gameScene(game) {
         game.graphics.stage.removeAllChildren();
-        game.gameContainer = new createjs.Container();
+        game.gameContainer = game.graphics.addContainer(null, 'game');
         game.graphics.setBackground(game.gameContainer, 'bg-game');
-        game.graphics.addContainer(game.gameContainer, 'game');
 
         createjs.Ticker.removeAllEventListeners('tick');
         createjs.Ticker.setFPS(30);
