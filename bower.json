@@ -5,6 +5,7 @@
     "jquery": "2.1.*",
     "easeljs": "*",
     "createjs-preloadjs": "*",
-    "dat-gui": "0.5.1"
+    "dat-gui": "0.5.1",
+    "GameFrame": "https://github.com/rodikh/GameFrame.git"
   }
 }

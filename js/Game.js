@@ -1,12 +1,15 @@
-(function (window, UnitFactories, GraphicsEngine, Building) {
+(function (window, UnitFactories, GraphicsEngine, Building, UserControls) {
     'use strict';
 
     /**
      * Game manager
      * @constructor
      */
-    var Game = function (assetPreloader) {
-        this.graphics = new GraphicsEngine(assetPreloader);
+    var Game = function (graphicsEngine) {
+        this.graphics = graphicsEngine;
+        this.controls = new UserControls(this);
+
+
         gameScene(this);
     };
 
@@ -15,18 +18,24 @@
      */
     Game.prototype.reset = function () {
         console.log('Game: Resetting');
+        this.controls.reset();
         this.units = [];
         this.addUnit(UnitFactories.Frigate, {id: 'jack', x: 100, y: 100, rot: 0, faction: 'red', verbose: true});
         this.addUnit(UnitFactories.Destroyer, {id: 'dessy', x: 120, y: 100, rot: 0, faction: 'red', verbose: true});
         this.addUnit(UnitFactories.Frigate, {id: 'mel', x: 600, y: 500, rot: 270, faction: 'blue', verbose: true});
         this.addUnit(Building, {x: 400, y: 400, faction: 'blue'});
+
+        this.selection = [];
     };
 
     /**
      * Spawn a new unit from arguments
-     * @param {*} args
+     * @param Factory
+     * @param args
+     * @returns {Game}
      */
     Game.prototype.addUnit = function (Factory, args) {
+        var self = this;
         var unit = new Factory(args);
         if (args.verbose) {
             var unitf = gui.addFolder(args.id);
@@ -37,9 +46,11 @@
             unitf.add(unit, 'status').listen();
             unitf.add(unit, 'velocity').listen();
         }
+
         this.units.push(unit);
         this.graphics.addDrawable(unit);
-
+        this.controls.registerUnit(unit);
+        return this;
     };
 
     /**
@@ -100,4 +111,4 @@
         game.graphics.stage.update();
     }
  
-} (window, window.UnitFactories, window.GraphicsEngine, window.Building));
+} (window, window.UnitFactories, window.GraphicsEngine, window.Building, window.UserControls));

@@ -1,4 +1,4 @@
-(function (window, Game, promiseAssets) {
+(function (window, Game, GraphicsEngine, AssetPreloader) {
     'use strict';
 
     window.gui = new dat.GUI();
@@ -12,7 +12,9 @@
 
     window.assets = new AssetPreloader(manifest, 'images/');
     window.assets.promiseAssets().then(function (evt, assetPreloader) {
-        window.game = new Game(assetPreloader);
+        Drawable.prototype.assetPreloader = assetPreloader;
+        var graphicsEngine = new GraphicsEngine(document.getElementById('main_canvas'), assetPreloader);
+        window.game = new Game(graphicsEngine);
     });
 
-} (window, window.Game, window.promiseAssets));
+} (window, window.Game, window.GraphicsEngine, window.AssetPreloader));

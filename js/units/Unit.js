@@ -1,6 +1,9 @@
 (function (window, Drawable) {
     'use strict';
 
+    const MATH_PI_DIV_180 = Math.PI / 180;
+    const MATH_180_DIV_PI = 180 / Math.PI;
+
     /**
      * Base Unit Class,
      * Implements a mobile navigating body.
@@ -29,6 +32,9 @@
         this.target = {x: options.x, y: options.y};
         this.status = 'idle';
 
+        // user control
+        this.selected = false;
+
         // development
         this.verbose = options.verbose || false;
     };
@@ -50,7 +56,7 @@
      * @returns {number} Angle between p2 and x axis for p1.
      */
     function direction(p1, p2) {
-        return Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+        return Math.atan2(p2.y - p1.y, p2.x - p1.x) * MATH_180_DIV_PI;
     }
 
     /**
@@ -60,7 +66,8 @@
      * @returns {number} Angle between angles.
      */
     function correction(a1, a2) {
-        return (a2 - a1 + 180) % 360 - 180;
+        var d = Math.abs(a1 - a2) % 360;
+        return d > 180 ? 360 - d : d;
     }
 
     /**
@@ -72,7 +79,7 @@
         // TODO: Implement acceleration and deceleration
         if (unit.velocity < targetVelocity) {
             unit.velocity += (unit.velocity + unit.acceleration < targetVelocity) ? unit.acceleration : targetVelocity - unit.velocity;
-        }else if (unit.velocity > targetVelocity) {
+        } else if (unit.velocity > targetVelocity) {
             unit.velocity -= (unit.velocity - unit.acceleration > targetVelocity) ? unit.acceleration : unit.velocity - targetVelocity;
         }
     }
@@ -86,6 +93,7 @@
         var navAngleAccuracy = 2; // The allowed amount of degree error during navigation
         // TODO: rotate easeinout
         var deltaAngle = correction(unit.rot, targetAngle);
+        //console.log('deltaAngle', deltaAngle);
         if (Math.abs(deltaAngle) > navAngleAccuracy) {
 
             //var rotationFriction = unit.velocity;							// random rotation speed
@@ -101,9 +109,9 @@
                 unit.rot -= drot;
             }
 
-            if (unit.rot < -180) {
+            if (unit.rot < 0) {
                 unit.rot += 360;
-            } else if (unit.rot > 180) {
+            } else if (unit.rot > 360) {
                 unit.rot -= 360;
             }
         }
@@ -115,7 +123,7 @@
     Unit.prototype.idle = function () {
 
         // Maintain idle velocity
-        var idleSpeed = this.maxSpeed/4;
+        var idleSpeed = this.maxSpeed / 4;
         throttleTo(this, idleSpeed);
 
         if (distance(this, this.target) > 15) {		// if further than 15 pixels away from target
@@ -128,7 +136,7 @@
      * @param {{number, number}} [target] Target waypoint to fly to
      */
     Unit.prototype.flyTo = function (target) {			// set and recalibrate heading to target per tick
-        if(target !== undefined){
+        if (target !== undefined) {
             this.target.x = target.x;					// set a new waypoint
             this.target.y = target.y;
             this.status = 'flying';
@@ -144,6 +152,10 @@
 
     };
 
+    Unit.prototype.interactWith = function (unit) {
+
+    };
+
     /**
      * Unit's tick function, updates position and behaviour
      */
@@ -153,15 +165,15 @@
             return true;
         }
 
-        if(this.status === 'flying'){
+        if (this.status === 'flying') {
             this.flyTo();
-        }else if(this.status === 'idle'){
+        } else if (this.status === 'idle') {
             this.idle();
         }
 
         if (this.velocity !== 0) {
-            this.x += this.velocity * Math.cos(this.rot * (Math.PI/180));
-            this.y += this.velocity * Math.sin(this.rot * (Math.PI/180));
+            this.x += this.velocity * Math.cos(this.rot * MATH_PI_DIV_180);
+            this.y += this.velocity * Math.sin(this.rot * MATH_PI_DIV_180);
 
             return true;
         }
@@ -176,4 +188,4 @@
 
     window.Unit = Unit;
     window.UnitFactories = {};
-} (window, window.Drawable));
+}(window, window.Drawable));
