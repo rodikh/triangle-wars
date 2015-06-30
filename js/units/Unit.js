@@ -15,6 +15,7 @@
         this.rot = options.rot || 0;
         this.model = options.model || 'red-frigate';
         this.velocity = 0;
+        this.acceleration = options.acceleration || 0.1;
 
         // Unit vitals
         this.maxHp = 10;
@@ -72,11 +73,10 @@
      */
     function throttleTo(unit, targetVelocity) {
         // TODO: Implement acceleration and deceleration
-
         if (unit.velocity < targetVelocity) {
-            unit.velocity += targetVelocity / 15;
+            unit.velocity += (unit.velocity + unit.acceleration < targetVelocity) ? unit.acceleration : targetVelocity - unit.velocity;
         }else if (unit.velocity > targetVelocity) {
-            unit.velocity -= targetVelocity / 15;
+            unit.velocity -= (unit.velocity - unit.acceleration > targetVelocity) ? unit.acceleration : unit.velocity - targetVelocity;
         }
     }
 
@@ -93,7 +93,7 @@
 
             //var rotationFriction = unit.velocity;							// random rotation speed
             //var drot = 3 * rotationFriction;
-            var drot = 3;
+            var drot = 3 + (Math.random() * 2 - 1);
             //if (drot > 5){
             //    drot = 5;
             //}

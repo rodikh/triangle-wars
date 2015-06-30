@@ -1,4 +1,4 @@
-(function (window, UnitFactories, GraphicsEngine) {
+(function (window, UnitFactories, GraphicsEngine, Building) {
     'use strict';
 
     /**
@@ -98,4 +98,4 @@
         game.graphics.stage.update();
     }
  
-} (window, window.UnitFactories, window.GraphicsEngine));
+} (window, window.UnitFactories, window.GraphicsEngine, window.Building));

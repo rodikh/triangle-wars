@@ -5,6 +5,6 @@
     "jquery": "2.1.*",
     "easeljs": "*",
     "createjs-preloadjs": "*",
-    "dat-gui": "0.5.*"
+    "dat-gui": "0.5.1"
   }
 }
